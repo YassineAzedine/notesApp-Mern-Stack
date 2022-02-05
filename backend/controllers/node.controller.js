@@ -22,11 +22,34 @@ const getAllNotes = (req,res)=>{
 
         
     }
-    
+    const updateNote = (req,res)=>{
+       Note.findById(req.params.id).then(note =>{
+           note.title = req.body.title;
+           note.body = req.body.body;
+           note.save().then(()=>{
+               res.json("note update");
+           }).catch(err => console.log(err));
+
+       }).catch(err =>console.log(err));
+    }
+    const deleteNote = (req,res)=>{
+        Note.findByIdAndDelete(req.params.id).then(note =>{
+            res.json("note deleted");
+
+        }).catch(err =>console.log(err));
+    }
+    const noteById = (req,res)=>{
+        Note.findById(req.params.id).then(note=>{
+            res.json({note});
+        }).catch(err => console.log(err))
+    }
     
 
 
 module.exports = {
     getAllNotes,
-    addNote
+    addNote,
+    updateNote,
+    deleteNote,
+    noteById
 }
